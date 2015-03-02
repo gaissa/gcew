@@ -2,8 +2,8 @@
 
 Shortcodes:
 <br>
-1. [events]
+1. ```[events]```
     Add to any page.
 <br>
-2. [search]
+2. ```[search]```
     Add to Text Widget
