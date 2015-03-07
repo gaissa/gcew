@@ -1,0 +1,44 @@
+.pagination li
+{
+    display:inline-block !important;
+    margin-right: -32px !important;
+    padding: 0 12px 0 12px !important;
+    background-color: #eee !important;
+    box-shadow: inset 0 1px 0 #fff !important;
+}
+
+#event_search_results
+{
+	display: none;
+}
+
+.main
+{	
+	margin-left: -8px !important;
+	padding-left: 12px !important;
+    background-color: #999 !important;
+    margin-bottom: 8px !important;
+}
+
+.name,
+.start,
+.end,
+.location
+{
+	padding-left: 12px !important;
+    margin-bottom: 0px !important;
+    margin-top: 0px !important;
+}
+
+.list
+{
+    margin:0 !important;
+    padding: -20px 0 0 !important;
+}
+
+.list > li
+{	
+    display: block;
+    background-color: #eee !important;
+    box-shadow: inset 0 1px 0 #fff !important;
+}

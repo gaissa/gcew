@@ -1,0 +1,63 @@
+.pagination li {
+    display:inline-block;
+    padding:1px;
+}
+
+#container ul
+{
+    margin-top: 0px;
+	padding-top: 0.2%;	
+    width: 70%;
+	list-style-type: none;   
+    color:#4F4F4F;
+    background-color: #FFE9AF;    
+    text-align: left;
+}
+
+#container ul li
+{
+
+}
+
+#add
+{
+    display: inline-block;
+    width: 19%;
+    height: 22px;
+    background: #4E9CAF;
+    padding: 0.3%;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+.removeID
+{
+    display: inline-block;
+    width: 19%;
+    height: 22px;
+    background: red;
+    padding: 0.3%;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+.name
+{
+    display: inline-block;
+    background: #DDD;
+    width: 49%;
+    padding-left: 1%;
+    margin: 1px;
+    padding-top: 3px;
+    padding-bottom: 6px;
+
+}
+
+text
+{
+    background: #4E9CAF;
+}
