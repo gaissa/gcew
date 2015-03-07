@@ -9,13 +9,13 @@
 
 #event_search_results
 {
-	display: none;
+    display: none;
 }
 
 .main
-{	
-	margin-left: -8px !important;
-	padding-left: 12px !important;
+{
+    margin-left: -8px !important;
+    padding-left: 12px !important;
     background-color: #999 !important;
     margin-bottom: 8px !important;
 }
@@ -25,7 +25,7 @@
 .end,
 .location
 {
-	padding-left: 12px !important;
+    padding-left: 12px !important;
     margin-bottom: 0px !important;
     margin-top: 0px !important;
 }
@@ -37,7 +37,7 @@
 }
 
 .list > li
-{	
+{
     display: block;
     background-color: #eee !important;
     box-shadow: inset 0 1px 0 #fff !important;
