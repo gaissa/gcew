@@ -20,7 +20,7 @@ class GCEventWorkerView
     {
         add_shortcode('search', array(&$this, 'show_search_form'));
 
-		add_shortcode('events_01', array(&$this, 'show_event_list_01'));
+        add_shortcode('events_01', array(&$this, 'show_event_list_01'));
         add_shortcode('events_02', array(&$this, 'show_event_list_02'));
 
         add_shortcode('categories_box', array(&$this, 'show_event_cat_box'));
@@ -35,9 +35,9 @@ class GCEventWorkerView
             $args = array('slug' => $output[$i]['id'],
                           'post_title' => $output[$i]['name'],
                           'post_content' => $output[$i]['start_at'] . ' - ' . $output[$i]['end_at']  .'<br>' .
-											$output[$i]['location'] . '<br><br>' .
-											$output[$i]['description'] . '<br>',
-						  'post_date' => $output[$i]['single_post_time']
+                                            $output[$i]['location'] . '<br><br>' .
+                                            $output[$i]['description'] . '<br>',
+                          'post_date' => $output[$i]['single_post_time']
             );
 
             new GCEventWorkerVirtualPage($args);
@@ -66,7 +66,7 @@ class GCEventWorkerView
      * TODO
      *
      * @param  array $atts
-	 *
+     *
      * @return string
      *
      */
@@ -85,16 +85,16 @@ class GCEventWorkerView
      * TODO
      *
      * @param  array $atts
-	 *
+     *
      * @return string
      *
      */
     function show_event_list_02($atts)
     {
         $loader = ' <div id="hacker-list2">
-                  
-					<ul class="pagination"></ul>
-					 <h4 id="event_search_results">HAKUTULOKSET:</h4>
+
+                    <ul class="pagination"></ul>
+                     <h4 id="event_search_results">HAKUTULOKSET:</h4>
                     <ul class="list"></ul>
                     </div>';
 
