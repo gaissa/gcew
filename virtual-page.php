@@ -56,13 +56,8 @@ class GCEventWorkerVirtualPage
         // Check if user is requesting our virtual page.
         if (count($posts) == 0 && (strtolower($wp->request) == $page_slug))
         {
-            //var_dump($wp_query);
-            //die();
-
             // Create a virtual post.
             $post = new stdClass;
-
-            // $post->post_author = 1;
 
             $post->post_name = $page_slug;
             $post->guid = get_bloginfo('wpurl' . '/' . $page_slug);
@@ -93,8 +88,6 @@ class GCEventWorkerVirtualPage
             $wp_query->is_404 = false;
 
             add_filter('the_content', array($this, 'my_the_content_filter'));
-
-            //var_dump($posts);
         }
 
         return $posts;
