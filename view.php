@@ -91,7 +91,7 @@ class GCEventWorkerView
      */
     function show_event_list_02($atts)
     {
-        $loader = ' <div id="hacker-list2">
+        $loader = ' <div id="event-list">
 
                     <ul class="pagination"></ul>
                      <h4 id="event_search_results">HAKUTULOKSET:</h4>

@@ -25,25 +25,34 @@
         var eventList,
             dates = [];
 
+        var template = '<li><h1 class="main"></h1>' +
+                       '<h3 class="name"></h3>' +
+                       '<span class="start"></span><br><span class="end"></span>' +
+                       '<br><span class="location"></span></li>';
+
         var options =
         {
             valueNames: ['main', 'name', 'start', 'end', 'location'],
-            item: '<li><h1 class="main"></h1><h3 class="name"></h3><span class="start"></span><br><span class="end"></span><br><span class="location"></span></li>',
+            item: template,
             page: 50,
             plugins: [ListPagination({})]
         };
 
-        eventList = new List('hacker-list2', options);
+        eventList = new List('event-list', options);
 
         for (var i = 0; i < object_name[0].length; i++)
         {
-            var name = '<a href="' + object_name[1].root + '/' + object_name[0][i].id + '/">' + object_name[0][i].name + '</a>';
+            var name = '<a href="' + object_name[1].root + '/' + object_name[0][i].id + '/">' +
+                       object_name[0][i].name + '</a>';
 
-            var start_date = '<strong>' + object_name[1].start_text + ':</strong> ' + object_name[0][i].start_at + ' @ ' + object_name[0][i].start_time;
-            //var end_date = '<strong>' + object_name[1].end_text + ':</strong> ' + object_name[0][i].end_at + ' @ ' + object_name[0][i].end_time;
-            var end_date = '<strong>' + object_name[1].end_text + ':</strong> ' + object_name[0][i].end_time;
+            var start_date = '<strong>' + object_name[1].start_text + ':</strong> ' +
+                             object_name[0][i].start_at + ' @ ' + object_name[0][i].start_time;
 
-            var location = '<strong>' + object_name[1].location_text + ':</strong> ' + object_name[0][i].location;
+            var end_date = '<strong>' + object_name[1].end_text + ':</strong> ' +
+                           object_name[0][i].end_time;
+
+            var location = '<strong>' + object_name[1].location_text + ':</strong> ' +
+                           object_name[0][i].location;
 
             if (dates.indexOf(object_name[0][i].start_at) !== -1)
             {
