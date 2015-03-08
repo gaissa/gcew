@@ -72,41 +72,32 @@ class GCEventWorkerPluginOptions
      */
     function register_settings()
     {
-        add_settings_section(
-            'gcew-settings-section-first',
-            __('gcew Events Options', 'event-worker-translations'),
-            array($this, 'print_api_key_settings_section_info'),
-            'gcew-settings-sections'
-        );
+        add_settings_section('gcew-settings-section-first',
+                             __('gcew Events Options', 'event-worker-translations'),
+                             array($this, 'print_api_key_settings_section_info'),
+                             'gcew-settings-sections');
 
-        add_settings_field(
-            'api-key',
-            __('API KEY', 'event-worker-translations'),
-            array($this, 'create_input_api_key'),
-            'gcew-settings-sections',
-            'gcew-settings-section-first'
-        );
+        add_settings_field('api-key',
+                           __('API KEY', 'event-worker-translations'),
+                           array($this, 'create_input_api_key'),
+                           'gcew-settings-sections',
+                           'gcew-settings-section-first');
 
-        add_settings_field(
-            'calendar-id',
-            __('CALENDAR ID', 'event-worker-translations'),
-            array($this, 'create_input_calendar_id'),
-            'gcew-settings-sections',
-            'gcew-settings-section-first'
-        );
+        add_settings_field('calendar-id',
+                           __('CALENDAR ID', 'event-worker-translations'),
+                           array($this, 'create_input_calendar_id'),
+                           'gcew-settings-sections',
+                           'gcew-settings-section-first');
 
-        add_settings_field(
-            'future-events',
-            __('UPCOMING EVENTS ONLY', 'event-worker-translations'),
-            array($this, 'create_input_future_events'),
-            'gcew-settings-sections',
-            'gcew-settings-section-first'
-        );
+        add_settings_field('future-events',
+                           __('UPCOMING EVENTS ONLY', 'event-worker-translations'),
+                           array($this, 'create_input_future_events'),
+                           'gcew-settings-sections',
+                           'gcew-settings-section-first');
 
         register_setting('settings-group',
                          'gcew_api_key',
                          array($this, 'plugin_api_endpoint_settings_validate'));
-
     }
 
     /**
@@ -125,7 +116,12 @@ class GCEventWorkerPluginOptions
     function create_input_api_key()
     {
         $options = get_option('gcew_api_key');
-        ?><input style="width:70%" type="text" name="gcew_api_key[api-key]" value="<?php echo esc_attr($options['api-key']); ?>" /><?php
+        ?>
+        <input style="width:70%"
+               type="text"
+               name="gcew_api_key[api-key]"
+               value="<?php echo esc_attr($options['api-key']); ?>" />
+        <?php
     }
 
     /**
@@ -163,7 +159,6 @@ class GCEventWorkerPluginOptions
 
             var idCheck;
 
-            // TODO
             loadToDo();
 
             //jQuery("#add").click(function(e)
@@ -256,7 +251,9 @@ class GCEventWorkerPluginOptions
                 {
                     jQuery.ajax(
                     {
-                        url: "https://www.googleapis.com/calendar/v3/calendars/" + id + "/events?singleEvents=true&key=AIzaSyAjYsypMI0vpY6hwkrdiHn7GcjPbPXFnDQ",
+                        url: "https://www.googleapis.com/calendar/v3/calendars/" +
+                             id +
+                             "/events?singleEvents=true&key=AIzaSyAjYsypMI0vpY6hwkrdiHn7GcjPbPXFnDQ",
                         async: false,
                         statusCode:
                         {
@@ -294,7 +291,9 @@ class GCEventWorkerPluginOptions
         $options = get_option('gcew_api_key');
 
         ?>
-        <input type='checkbox' name='gcew_api_key[future-events]' value='1' <?php checked( $options['future-events'], 1); ?> />
+        <input type='checkbox'
+               name='gcew_api_key[future-events]'
+               value='1' <?php checked( $options['future-events'], 1); ?> />
         <?php
     }
 
