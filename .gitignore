@@ -1,5 +1,6 @@
 *.log
 .htaccess
+js/views/events_01.js
 sitemap.xml
 sitemap.xml.gz
 wp-config.php
