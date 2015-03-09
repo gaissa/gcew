@@ -261,7 +261,7 @@ class GCEventWorkerClientCore
         $key = $this->api_key;
 
         // OPTIONS HERE! CHANGE TO BOOLEAN AND CHECKBOX
-        if ($this->future_events == 1)
+        if ($this->future_events === 1)
         {
             $timeMin = '&timeMin=' . gmdate('Y-m-d\TH:i:s\Z', time()-(43200));
         }

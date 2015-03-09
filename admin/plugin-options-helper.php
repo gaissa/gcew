@@ -26,7 +26,7 @@ class GCEventWorkerPluginOptionsHelper
          // Alter the options array appropriately.
         $options['api-key'] = $_POST['api_key'];
         $options['calendar-id'] = array($_POST['user_id']);
-        $options['future-events'] = $_POST['future_events'];
+        $options['future-events'] = (int)$_POST['future_events'];
 
         // Update entire array.
         update_option('gcew_api_key', $options);

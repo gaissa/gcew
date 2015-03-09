@@ -151,23 +151,16 @@ class GCEventWorkerPluginOptions
 
         jQuery(document).ready(function()
         {
+			var idCheck;
             var calendarIDList;
 
-            var options = {
+            var options =
+			{
                 item: '<li><text contenteditable="plaintext-only" class="name"></text><text class="city"></text></li>',
-            };
-
-            var idCheck;
+            };          
 
             loadToDo();
 
-            //jQuery("#add").click(function(e)
-            //{
-                //var len = calendarIDList['items'].length;
-                //calendarIDList.add({ id: jQuery("#add-id").val(), name: jQuery("#add-id").val(), city: '<a href=javascript:void(0); id="' + jQuery("#add-id").val() + '" class="removeID">REMOVE</a>' });
-            //});
-
-            //jQuery("#saveAll").click(function(e)
             jQuery("#submit").click(function(e)
             {
                 e.preventDefault();
@@ -252,7 +245,7 @@ class GCEventWorkerPluginOptions
                         url: "https://www.googleapis.com/calendar/v3/calendars/" +
                              id +
                              "/events?singleEvents=false&key=" +
-                             "AIzaSyAjYsypMI0vpY6hwkrdiHn7GcjPbPXFnDQ",
+                             jQuery("#api-key").val(),
                         async: bool,
                         statusCode:
                         {
