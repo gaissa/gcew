@@ -172,20 +172,20 @@ class GCEventWorkerPluginOptions
             {
                 e.preventDefault();
 
-				var api_key;
+                var api_key;
                 var info = [];
-				var future_event;
+                var future_event;
 
-				var cusid_ele = document.getElementsByClassName('name');
+                var cusid_ele = document.getElementsByClassName('name');
 
-				for (var j = 0; j < cusid_ele.length; j++)
-				{
-					var item = cusid_ele[j];
-					info[j] = item.innerText;
-				}
-				
-				api_key = jQuery("#api-key").val();				
-				future_events = jQuery("#future-events:checked").size();
+                for (var j = 0; j < cusid_ele.length; j++)
+                {
+                    var item = cusid_ele[j];
+                    info[j] = item.innerText;
+                }
+
+                api_key = jQuery("#api-key").val();
+                future_events = jQuery("#future-events:checked").size();
 
                 jQuery.post( "<?php echo plugins_url("plugin-options-helper.php", __FILE__); ?>", { user_id: info, api_key: api_key , future_events: future_events }, function(data)
                 {
@@ -252,7 +252,7 @@ class GCEventWorkerPluginOptions
                         url: "https://www.googleapis.com/calendar/v3/calendars/" +
                              id +
                              "/events?singleEvents=false&key=" +
-							 "AIzaSyAjYsypMI0vpY6hwkrdiHn7GcjPbPXFnDQ",
+                             "AIzaSyAjYsypMI0vpY6hwkrdiHn7GcjPbPXFnDQ",
                         async: bool,
                         statusCode:
                         {
@@ -278,8 +278,8 @@ class GCEventWorkerPluginOptions
         });
 
         </script>
-		
-        <?php	
+
+        <?php
     }
 
     /**
@@ -293,7 +293,7 @@ class GCEventWorkerPluginOptions
         ?>
         <input type='checkbox'
                name='gcew_api_key[future-events]'
-			   id="future-events"
+               id="future-events"
                value='1' <?php checked( $options['future-events'], 1); ?> />
         <?php
     }
