@@ -10,6 +10,18 @@ Author: Janne Kähkönen
 Author URI:
 */
 
+if (!function_exists('write_log')) {
+    function write_log ( $log )  {
+        if ( true === WP_DEBUG ) {
+            if ( is_array( $log ) || is_object( $log ) ) {
+                error_log( print_r( $log, true ) );
+            } else {
+                error_log( $log );
+            }
+        }
+    }
+}
+
 /**
  * TODO.
  *
@@ -100,54 +112,29 @@ class GCEventWorkerClientCore
         $this->api_key = get_option('gcew_api_key')['api-key'];
         $this->future_events = get_option('gcew_api_key')['future-events'];
         $this->id = get_option('gcew_api_key')['calendar-id'][0];
+		
+		//write_log('THIS IS THE START OF MY CUSTOM DEBUG');        
 
-        if( get_option( 'gcew_api_key' ) )
-        {
-            //do nothing here
-        }
-        else
-        {
-            //die();
-        }
+		// Register CRON stuff
+		add_filter('cron_schedules', array(&$this, 'add_custom_cron_schedule')) ;
 
-        if (!isset($this->api_key) && !isset($this->id))
-        {
-            //die();
-        }
+		register_deactivation_hook(__FILE__, array(&$this, 'gcew_deactivation'));
+		register_activation_hook(__FILE__, array(&$this, 'gcew_activation'));
 
-        //if (isset($this->id))
-        //{
+		add_action('gcew_get_events_schedule_hook', array(&$this, 'scheduled_function'), 1, 2);
 
-            //var_dump($this->id);
-            //die();
+		if (isset($this->api_key) && isset($this->id))
+		{
+			// Register AJAX stuff
+			add_action('wp_ajax_nopriv_ajax-example', array(&$this, 'ajax_call'));
+			add_action('wp_ajax_ajax-example', array(&$this, 'ajax_call'));
 
-            // Register CRON stuff
-            add_filter('cron_schedules', array(&$this, 'add_custom_cron_schedule')) ;
+			// INIT stuff
+			add_action('init', array(&$this, 'main_init'));
+		}
 
-            register_deactivation_hook(__FILE__, array(&$this, 'gcew_deactivation'));
-            register_activation_hook(__FILE__, array(&$this, 'gcew_activation'));
-
-            add_action('gcew_get_events_schedule_hook', array(&$this, 'scheduled_function'));
-
-            if (isset($this->api_key) && isset($this->id))
-            {
-                // Register AJAX stuff
-                add_action('wp_ajax_nopriv_ajax-example', array(&$this, 'ajax_call'));
-                add_action('wp_ajax_ajax-example', array(&$this, 'ajax_call'));
-
-                // INIT stuff
-                add_action('init', array(&$this, 'main_init'));
-            }
-
-            // Enqueue the CSS stylesheets
-            add_action('admin_enqueue_scripts', array(&$this, 'add_admin_styles_and_scripts'));
-
-        //}
-        //else
-        //{
-             //do nothing here
-        //}
-
+		// Enqueue the CSS stylesheets
+		add_action('admin_enqueue_scripts', array(&$this, 'add_admin_styles_and_scripts'));
     }
 
     /**
@@ -159,7 +146,7 @@ class GCEventWorkerClientCore
     function add_custom_cron_schedule($schedules)
     {
         $schedules['gcew_get_events_schedule'] = array(
-            'interval' => 1,
+            'interval' => 10,
             'display'  => __('Custom Interval'),
         );
 
@@ -174,6 +161,7 @@ class GCEventWorkerClientCore
     {
         wp_clear_scheduled_hook('gcew_get_events_schedule_hook');
         delete_option('gcew_events_list');
+		delete_option('gcew_event_categories');
         // ADD MORE!!!!
     }
 
@@ -191,7 +179,7 @@ class GCEventWorkerClientCore
      *
      */
     function scheduled_function()
-    {
+    {		
         $this->get_data();
     }
 
@@ -201,9 +189,6 @@ class GCEventWorkerClientCore
      */
     function add_admin_styles_and_scripts($hook)
     {
-        //var_dump($hook);
-        //die();
-
         if ($hook == 'toplevel_page_gcew-options')
         {
             wp_enqueue_style('options-style', plugins_url('css/options-style.css', __FILE__));
@@ -252,7 +237,7 @@ class GCEventWorkerClientCore
      *
      */
     private function get_data()
-    {
+    {	
         $parsed_data = array();
         $categories = array();
 
@@ -435,7 +420,7 @@ class GCEventWorkerClientCore
     {
         require_once('virtual-page.php');
         require_once('view.php');
-        //$this->view = new View();
+
         add_action('wp_head', array($this, 'init_head'));
     }
 
