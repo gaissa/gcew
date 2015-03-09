@@ -151,13 +151,13 @@ class GCEventWorkerPluginOptions
 
         jQuery(document).ready(function()
         {
-			var idCheck;
+            var idCheck;
             var calendarIDList;
 
             var options =
-			{
+            {
                 item: '<li><text contenteditable="plaintext-only" class="name"></text><text class="city"></text></li>',
-            };          
+            };
 
             loadToDo();
 
