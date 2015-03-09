@@ -10,17 +10,6 @@ Author: Janne Kähkönen
 Author URI:
 */
 
-if (!function_exists('write_log')) {
-    function write_log ( $log )  {
-        if ( true === WP_DEBUG ) {
-            if ( is_array( $log ) || is_object( $log ) ) {
-                error_log( print_r( $log, true ) );
-            } else {
-                error_log( $log );
-            }
-        }
-    }
-}
 
 /**
  * TODO.
@@ -112,29 +101,27 @@ class GCEventWorkerClientCore
         $this->api_key = get_option('gcew_api_key')['api-key'];
         $this->future_events = get_option('gcew_api_key')['future-events'];
         $this->id = get_option('gcew_api_key')['calendar-id'][0];
-		
-		//write_log('THIS IS THE START OF MY CUSTOM DEBUG');        
 
-		// Register CRON stuff
-		add_filter('cron_schedules', array(&$this, 'add_custom_cron_schedule')) ;
+        // Register CRON stuff
+        add_filter('cron_schedules', array(&$this, 'add_custom_cron_schedule')) ;
 
-		register_deactivation_hook(__FILE__, array(&$this, 'gcew_deactivation'));
-		register_activation_hook(__FILE__, array(&$this, 'gcew_activation'));
+        register_deactivation_hook(__FILE__, array(&$this, 'gcew_deactivation'));
+        register_activation_hook(__FILE__, array(&$this, 'gcew_activation'));
 
-		add_action('gcew_get_events_schedule_hook', array(&$this, 'scheduled_function'), 1, 2);
+        add_action('gcew_get_events_schedule_hook', array(&$this, 'scheduled_function'), 1, 2);
 
-		if (isset($this->api_key) && isset($this->id))
-		{
-			// Register AJAX stuff
-			add_action('wp_ajax_nopriv_ajax-example', array(&$this, 'ajax_call'));
-			add_action('wp_ajax_ajax-example', array(&$this, 'ajax_call'));
+        if (isset($this->api_key) && isset($this->id))
+        {
+            // Register AJAX stuff
+            add_action('wp_ajax_nopriv_ajax-example', array(&$this, 'ajax_call'));
+            add_action('wp_ajax_ajax-example', array(&$this, 'ajax_call'));
 
-			// INIT stuff
-			add_action('init', array(&$this, 'main_init'));
-		}
+            // INIT stuff
+            add_action('init', array(&$this, 'main_init'));
+        }
 
-		// Enqueue the CSS stylesheets
-		add_action('admin_enqueue_scripts', array(&$this, 'add_admin_styles_and_scripts'));
+        // Enqueue the CSS stylesheets
+        add_action('admin_enqueue_scripts', array(&$this, 'add_admin_styles_and_scripts'));
     }
 
     /**
@@ -161,7 +148,7 @@ class GCEventWorkerClientCore
     {
         wp_clear_scheduled_hook('gcew_get_events_schedule_hook');
         delete_option('gcew_events_list');
-		delete_option('gcew_event_categories');
+        delete_option('gcew_event_categories');
         // ADD MORE!!!!
     }
 
@@ -179,7 +166,7 @@ class GCEventWorkerClientCore
      *
      */
     function scheduled_function()
-    {		
+    {
         $this->get_data();
     }
 
@@ -237,7 +224,7 @@ class GCEventWorkerClientCore
      *
      */
     private function get_data()
-    {	
+    {
         $parsed_data = array();
         $categories = array();
 
@@ -245,7 +232,6 @@ class GCEventWorkerClientCore
 
         $key = $this->api_key;
 
-        // OPTIONS HERE! CHANGE TO BOOLEAN AND CHECKBOX
         if ($this->future_events === 1)
         {
             $timeMin = '&timeMin=' . gmdate('Y-m-d\TH:i:s\Z', time()-(43200));
@@ -310,14 +296,7 @@ class GCEventWorkerClientCore
                 $location = '';
             }
 
-            //if ($this->in_array_r($result[$i]['summary'], $parsed_data) === false)
-            //{
-                $id = $result[$i]['summary'] . '-' . $start_date . $start_time;
-            //}
-            //else
-            //{
-                //$id = $result[$i]['summary'] . "-" . $start_date . $start_time;
-            //}
+            $id = $result[$i]['summary'] . '-' . $start_date . $start_time;
 
             if (!in_array($result[$i]['organizer']['displayName'], $categories))
             {
