@@ -118,6 +118,7 @@ class GCEventWorkerPluginOptions
         $options = get_option('gcew_api_key');
         ?>
         <input style="width:70%"
+               id="api-key"
                type="text"
                name="gcew_api_key[api-key]"
                value="<?php echo esc_attr($options['api-key']); ?>" />
@@ -140,9 +141,8 @@ class GCEventWorkerPluginOptions
             <a href=javascript:void(0); id="add">ADD</a>
         </p>
 
-        <div id="hacker-list">
+        <div id="calendar-id-list">
             <ul class="list"></ul>
-            <ul class="pagination"></ul>
         </div>
 
         <!-- <a href='#' id="saveAll">SAVE</a> -->
@@ -151,7 +151,7 @@ class GCEventWorkerPluginOptions
 
         jQuery(document).ready(function()
         {
-            var hackerList;
+            var calendarIDList;
 
             var options = {
                 item: '<li><text contenteditable="plaintext-only" class="name"></text><text class="city"></text></li>',
@@ -163,35 +163,33 @@ class GCEventWorkerPluginOptions
 
             //jQuery("#add").click(function(e)
             //{
-                //var len = hackerList['items'].length;
-                //hackerList.add({ id: jQuery("#add-id").val(), name: jQuery("#add-id").val(), city: '<a href=javascript:void(0); id="' + jQuery("#add-id").val() + '" class="removeID">REMOVE</a>' });
+                //var len = calendarIDList['items'].length;
+                //calendarIDList.add({ id: jQuery("#add-id").val(), name: jQuery("#add-id").val(), city: '<a href=javascript:void(0); id="' + jQuery("#add-id").val() + '" class="removeID">REMOVE</a>' });
             //});
 
             //jQuery("#saveAll").click(function(e)
             jQuery("#submit").click(function(e)
             {
-                //e.preventDefault();
+                e.preventDefault();
 
+				var api_key;
                 var info = [];
+				var future_event;
 
-                //for (var i = 0; i < hackerList['items'].length; i++)
-                //{
-                    var cusid_ele = document.getElementsByClassName('name');
+				var cusid_ele = document.getElementsByClassName('name');
 
-                    for (var j = 0; j < cusid_ele.length; j++)
-                    {
-                        var item = cusid_ele[j];
-                        info[j] = item.innerText;
-                    }
-                //}
+				for (var j = 0; j < cusid_ele.length; j++)
+				{
+					var item = cusid_ele[j];
+					info[j] = item.innerText;
+				}
+				
+				api_key = jQuery("#api-key").val();				
+				future_events = jQuery("#future-events:checked").size();
 
-                //console.log(info);
-                //info[0] = '...@group.calendar.google.com'
-                //info[1] = '...@group.calendar.google.com'
-
-                jQuery.post( "<?php echo plugins_url("plugin-options-helper.php", __FILE__); ?>", { user_id: info  }, function(data)
+                jQuery.post( "<?php echo plugins_url("plugin-options-helper.php", __FILE__); ?>", { user_id: info, api_key: api_key , future_events: future_events }, function(data)
                 {
-                    //console.log(data);
+                   //console.log(data);
                 }).done(function()
                 {
                     alertify.success("You have saved your list.");
@@ -208,18 +206,18 @@ class GCEventWorkerPluginOptions
 
                     if (values.length != 0)
                     {
-                        hackerList = new List('hacker-list', options, values);
+                        calendarIDList = new List('calendar-id-list', options, values);
                     }
                     else
                     {
-                        hackerList = new List('hacker-list', options);
+                        calendarIDList = new List('calendar-id-list', options);
                     }
                 })
                 .done(function()
                 {
                     jQuery(".removeID").live("click", function(e)
                     {
-                        hackerList.remove("id", e.target.id);
+                        calendarIDList.remove("id", e.target.id);
                     });
 
                     jQuery(".name").live("focusin", function(e)
@@ -229,16 +227,16 @@ class GCEventWorkerPluginOptions
 
                     jQuery(".name").live("focusout", function(e)
                     {
-                        checkPageExist(jQuery(e.target).text());
+                        checkPageExist(jQuery(e.target).text(), true);
                     });
 
                     jQuery("#add").live("click", function(e)
                     {
-                        checkPageExist(jQuery("#add-id").val());
+                        checkPageExist(jQuery("#add-id").val(), false);
 
                         if (idCheck == true)
                         {
-                            hackerList.add({   id: jQuery("#add-id").val(),
+                            calendarIDList.add({   id: jQuery("#add-id").val(),
                                              name: jQuery("#add-id").val(),
                                              city: '<a href=javascript:void(0); id="' +
                                                    jQuery("#add-id").val() +
@@ -247,14 +245,15 @@ class GCEventWorkerPluginOptions
                     });
                 });
 
-                function checkPageExist(id)
+                function checkPageExist(id, bool)
                 {
                     jQuery.ajax(
                     {
                         url: "https://www.googleapis.com/calendar/v3/calendars/" +
                              id +
-                             "/events?singleEvents=true&key=AIzaSyAjYsypMI0vpY6hwkrdiHn7GcjPbPXFnDQ",
-                        async: false,
+                             "/events?singleEvents=false&key=" +
+							 "AIzaSyAjYsypMI0vpY6hwkrdiHn7GcjPbPXFnDQ",
+                        async: bool,
                         statusCode:
                         {
                             404: function ()
@@ -279,7 +278,8 @@ class GCEventWorkerPluginOptions
         });
 
         </script>
-        <?php
+		
+        <?php	
     }
 
     /**
@@ -293,6 +293,7 @@ class GCEventWorkerPluginOptions
         ?>
         <input type='checkbox'
                name='gcew_api_key[future-events]'
+			   id="future-events"
                value='1' <?php checked( $options['future-events'], 1); ?> />
         <?php
     }
@@ -307,13 +308,13 @@ class GCEventWorkerPluginOptions
      */
     function plugin_api_endpoint_settings_validate($arr_input)
     {
-        $options = get_option('gcew_api_key');
-        $options['api-key'] = sanitize_text_field($arr_input['api-key']);
+        //$options = get_option('gcew_api_key');
+        //$options['api-key'] = $arr_input['api-key'];
         //$options['calendar-id'] = sanitize_text_field($arr_input['calendar-id']);
 
-        $options['future-events'] = $arr_input['future-events'];
+        //$options['future-events'] = $arr_input['future-events'];
 
-        return $options;
+        //return $options;
     }
 
 } //end class
