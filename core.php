@@ -212,10 +212,6 @@ class GCEventWorkerClientCore
                               plugin_dir_url( __FILE__ ) . 'js/lib/listjs/list.js',
                               array('jquery'));
 
-            wp_enqueue_script('listjspagination',
-                              plugin_dir_url( __FILE__ ) . 'js/lib/listj/list.pagination.js',
-                              array('jquery'));
-
             wp_enqueue_script('alertifyjs',
                               plugin_dir_url( __FILE__ ) . 'js/lib/alertify/alertify.js',
                               array('jquery'));
