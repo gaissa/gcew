@@ -2,12 +2,12 @@
 
 /*
 Plugin Name: Google Calendar Event Worker
-Plugin URI:
-Description:
+Plugin URI: https://github.com/gaissa/gcew
+Description: Get events from Google Calendar and present them multiple ways.
 Version: 0.1
-Date: 2014-12-12
+Date: 2015-03-11
 Author: Janne Kähkönen
-Author URI:
+Author URI: https://github.com/gaissa/
 */
 
 
