@@ -49,7 +49,7 @@
 
         var options =
         {
-            valueNames: ['main', 'name', 'start', 'end', 'location'],
+            valueNames: ['main', 'name', 'start', 'end', 'location', 'hidden'],
             searchClass: "search",
             item: template,
             page: 25,
@@ -66,18 +66,7 @@
         eventList.helpers.events.bind(searchField, 'keyup', function(e)
         {
             var target = e.target || e.srcElement; // IE have srcElement
-
-            if (target.value === "")
-            {
-                //jQuery('.main').css({ opacity: 100 });
-                //jQuery('.main').css({ height: height });
-            }
-            else
-            {
-                //jQuery('.main').css({ opacity: 0 });
-                //jQuery('.main').css({ height: 0 });
-                eventList.search(target.value);
-            }
+            eventList.search(target.value, ['hidden']);
         });
 
         for (var i = 0; i < object_name[0].length; i++)
@@ -94,6 +83,8 @@
             var location = '<strong>' + object_name[1].location_text + ':</strong> ' +
                            object_name[0][i].location;
 
+            var hidden = object_name[0][i].name;
+
             if (dates.indexOf(object_name[0][i].start_at) !== -1)
             {
                 eventList.add
@@ -101,7 +92,8 @@
                     name: name,
                     start: start_date,
                     end: end_date,
-                    location: location
+                    location: location,
+                    hidden: hidden
                 });
             }
             else
@@ -112,7 +104,8 @@
                     name: name,
                     start: start_date,
                     end: end_date,
-                    location: location
+                    location: location,
+                    hidden: hidden
                 });
             }
 
