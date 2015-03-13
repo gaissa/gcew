@@ -98,9 +98,14 @@ class GCEventWorkerClientCore
     {
         require_once('admin/plugin-options-page.php');
 
-        $this->api_key = get_option('gcew_api_key')['api-key'];
-        $this->future_events = get_option('gcew_api_key')['future-events'];
-        $this->id = get_option('gcew_api_key')['calendar-id'][0];
+        $this->api_key = get_option('gcew_api_key');
+        $this->api_key = $this->api_key['api-key'];
+
+        $this->future_events = get_option('gcew_api_key');
+        $this->future_events = $this->future_events['future-events'];
+
+        $this->id = get_option('gcew_api_key');
+        $this->id = $this->id['calendar-id'][0];
 
         // Register CRON stuff
         add_filter('cron_schedules', array(&$this, 'add_custom_cron_schedule')) ;

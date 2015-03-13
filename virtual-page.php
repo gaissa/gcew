@@ -28,6 +28,11 @@ class GCEventWorkerVirtualPage
         $this->slug = $args['slug'];
     }
 
+    function remove_link()
+    {
+        return false;
+    }
+
     /**
      * TODO
      *
@@ -36,7 +41,17 @@ class GCEventWorkerVirtualPage
      */
     function my_the_content_filter($content)
     {
-        echo $content . '[MAP HERE]';
+        //echo $content . '[MAP HERE]';
+        echo $content;
+
+        add_filter( 'previous_post_link', array($this,'remove_link' ));
+        add_filter( 'next_post_link', array($this,'remove_link' ));
+
+        wp_enqueue_script('search-form',
+                          plugin_dir_url( __FILE__ ) . 'js/temp.js',
+                          array('jquery'));
+
+        //echo $content . get_post_type( get_the_ID() ) . get_the_ID();
     }
 
     /**
@@ -69,6 +84,7 @@ class GCEventWorkerVirtualPage
             $post->comment_status = 'closed';
             $post->ping_status = 'closed';
             $post->comment_count = 0;
+            $post->post_type = "page";
 
             $post = (object) array_merge((array) $post, (array) $this->args);
 
@@ -89,6 +105,7 @@ class GCEventWorkerVirtualPage
 
             add_filter('the_content', array($this, 'my_the_content_filter'));
         }
+
 
         return $posts;
     }
