@@ -10,5 +10,4 @@
         jQuery(".posted-meta").remove();
         jQuery(".meta").remove();
     });
-
 })();

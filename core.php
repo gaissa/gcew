@@ -336,29 +336,11 @@ class GCEventWorkerClientCore
     {
         global $post;
 
-        if (has_shortcode($post->post_content, 'events_01'))
+        if (has_shortcode($post->post_content, 'events_map'))
         {
             $page = 'front';
-
-            wp_enqueue_script('search-form',
-                              plugin_dir_url( __FILE__ ) . 'js/views/search_01.js',
-                              array('jquery'));
-
-            wp_enqueue_script('ajax-example',
-                              plugin_dir_url( __FILE__ ) . 'js/views/events_01.js',
-                              array('jquery'));
-
-
-            wp_localize_script('ajax-example',
-                               'AjaxExample',
-                               array('ajaxurl' => admin_url('admin-ajax.php'),
-                                     //'cat' => $temp,
-                                     'page' => sanitize_title($page),
-                                     'root' => get_site_url(),
-                                     //'url' => get_permalink(),
-                                     'nonce' => wp_create_nonce('ajax-example-nonce')));
         }
-        else if (has_shortcode($post->post_content, 'events_02'))
+        else if (has_shortcode($post->post_content, 'events_list'))
         {
             $page = 'front';
 
@@ -375,7 +357,7 @@ class GCEventWorkerClientCore
             $loc_array = get_option('gcew_events_list');
 
             wp_enqueue_script('front_view',
-                              plugin_dir_url( __FILE__ ) . 'js/views/events_02.js',
+                              plugin_dir_url( __FILE__ ) . 'js/views/events_list.js',
                               array('jquery'));
 
             wp_localize_script('front_view',

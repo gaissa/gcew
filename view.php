@@ -20,11 +20,8 @@ class GCEventWorkerView
     {
         add_shortcode('search', array(&$this, 'show_search_form'));
 
-        add_shortcode('events_01', array(&$this, 'show_event_list_01'));
-        add_shortcode('events_02', array(&$this, 'show_event_list_02'));
-
-        add_shortcode('categories_box', array(&$this, 'show_event_cat_box'));
-        add_shortcode('categories_list', array(&$this, 'show_event_cat_list'));
+        add_shortcode('events_map', array(&$this, 'show_events_map'));
+        add_shortcode('events_list', array(&$this, 'show_events_list'));
 
         add_filter('widget_text', 'do_shortcode');
 
@@ -59,8 +56,8 @@ class GCEventWorkerView
      *
      */
     function show_search_form()
-    {					   
-		$searchform = '<input class="search" placeholder="Etsi Tapahtumia"/>';
+    {
+        $searchform = '<input class="search" placeholder="Etsi Tapahtumia"/>';
 
         return $searchform;
     }
@@ -73,13 +70,9 @@ class GCEventWorkerView
      * @return string
      *
      */
-    function show_event_list_01($atts)
+    function show_events_map($atts)
     {
-        $loader = '<div>
-                   <ul class="list">
-                   <div id="loader"></div>
-                   </ul>
-                   </div>';
+        $loader = '<div></div>';
 
         return $loader;
     }
@@ -92,64 +85,22 @@ class GCEventWorkerView
      * @return string
      *
      */
-    function show_event_list_02($atts)
+    function show_events_list($atts)
     {
         $loader = ' <div id="event-list">
                     <ul class="paginationTop"></ul>
-					
+
                     <h4 id="event_search_results">HAKUTULOKSET:</h4>
                     <ul class="list"></ul>
-					
-					<br>
-					
-					<ul class="paginationBottom"></ul>
-					
-					
+
+                    <br>
+
+                    <ul class="paginationBottom"></ul>
+
+
                     </div>';
 
         return $loader;
-    }
-
-    /**
-     * TODO
-     *
-     * @return string
-     *
-     */
-    function show_event_cat_list()
-    {
-        $output = get_option('gcew_event_categories');
-        $listview = '<div id="event_categories">';
-
-        $listview .= '<a href="" class="confirmation">' . 'KAIKKI' . '</a><br>';
-
-        for ($i = 0; $i < count($output); $i++)
-        {
-            $listview .= '<a href="" class="confirmation">' . $output[$i] . '</a><br>';
-        }
-
-        $listview .= '</div>';
-
-        return $listview;
-    }
-
-    /**
-     * TODO
-     *
-     * @return string
-     *
-     */
-    function show_event_cat_box()
-    {
-        $output = get_option('gcew_event_categories');
-
-        $selectbox = '<select id="selectBox" name="selectBox" style="width: 100%">';
-
-        $selectbox .= '<option value="' . 'ALL' . '"></option>';
-
-        $selectbox .= '</select>';
-
-        return $selectbox;
     }
 
 } //end class
