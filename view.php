@@ -19,6 +19,9 @@ class GCEventWorkerView
     function __construct()
     {
         add_shortcode('search', array(&$this, 'show_search_form'));
+        add_shortcode('print', array(&$this, 'show_print_form'));
+
+        add_shortcode('recent', array(&$this, 'show_recent_form'));
 
         add_shortcode('events_map', array(&$this, 'show_events_map'));
         add_shortcode('events_list', array(&$this, 'show_events_list'));
@@ -65,6 +68,50 @@ class GCEventWorkerView
     /**
      * TODO
      *
+     * @return string
+     *
+     */
+    function show_print_form($atts)
+    {
+       $printform = "";
+
+       $atts = shortcode_atts(
+        array(
+            'pdf' => 'true',
+            'text' => 'true',
+        ), $atts, 'print' );
+
+        if ($atts['pdf'] === "true")
+        {
+            $printform .= '<div id="linker">PDF</div>';
+        }
+        if ($atts['text'] === "true")
+        {
+            $printform .= '<div id="linker">TEKSTITIEDOSTO</div>';
+        }
+
+        return $printform;
+    }
+
+       /**
+     * TODO
+     *
+     * @return string
+     *
+     */
+    function show_recent_form($atts)
+    {
+        extract(shortcode_atts(array(
+            'width' => 400,
+            'height' => 200,
+        ), $atts));
+
+        return '<img src="http://lorempixel.com/'. $width . '/'. $height . '" />';;
+    }
+
+    /**
+     * TODO
+     *
      * @param  array $atts
      *
      * @return string
@@ -87,18 +134,17 @@ class GCEventWorkerView
      */
     function show_events_list($atts)
     {
-        $loader = ' <div id="event-list">
-                    <ul class="paginationTop"></ul>
+        $loader = '<div id="event-list">
+                   <ul class="paginationTop"></ul>
 
-                    <h4 id="event_search_results">HAKUTULOKSET:</h4>
-                    <ul class="list"></ul>
+                   <h4 id="event_search_results">HAKUTULOKSET:</h4>
+                   <ul class="list"></ul>
 
-                    <br>
+                   <br>
 
-                    <ul class="paginationBottom"></ul>
+                   <ul class="paginationBottom"></ul>
 
-
-                    </div>';
+                   </div>';
 
         return $loader;
     }

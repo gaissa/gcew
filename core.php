@@ -343,6 +343,11 @@ class GCEventWorkerClientCore
         else if (has_shortcode($post->post_content, 'events_list'))
         {
             $page = 'front';
+			
+			
+			wp_enqueue_script('jspdf',
+                              plugin_dir_url( __FILE__ ) . 'js/jspdf.min.js',
+                              array('jquery'));			
 
             wp_enqueue_style('front-style', plugins_url('css/front-style.css', __FILE__));
 

@@ -2,13 +2,12 @@
 {
     'use strict';
 
-    var height;
-
-    jQuery(document).ready(function ()
+    jQuery(document).ready(function()
     {
         init_list();
-        height = jQuery('.main').height();
     });
+	
+
 
     function init_list()
     {
@@ -23,31 +22,68 @@
             }
 
             return a1 > b1 ? 1 : -1;
-        });
+        });		
+		
+		jQuery("#linker").click(function()
+		{	
+			var doc = new jsPDF();
+			
+			doc.setFont("times");
+			doc.setFontSize(12);			
+			doc.setLineWidth(0.1);
+			var pageHeight= doc.internal.pageSize.height;
+			
+			var temp = 0;
+			var adder = 10;
+			
+			for (var i = 0; i < object_name[0].length; i++)
+			{
+				temp = temp + adder;
+				console.log(doc.internal.pageSize.height);
+				
+				if (parseInt(pageHeight, 10) <= temp)
+				{
+					doc.addPage();
+					temp = adder;
+				}
+				
+				doc.text(10, temp, i + object_name[0][i].name);
+				doc.setDrawColor(225,225,225);				
+				doc.setLineWidth(0.1);
+				doc.line(0, temp+2, 600, temp+2);	
+					
+			}
+			
+			doc.output('dataurlnewwindow');
+		});		
 
         var eventList,
-            dates = [];
+            dates = [],
+			template,
+			paginationTopOptions,
+			paginationBottomOptions,
+			options;
 
-        var template = '<li><span class="main"></span>' +
-                       '<h3 class="name"></h3>' +
-                       '<span class="start"></span><br><span class="end"></span>' +
-                       '<br><span class="location"></span></li>';
+        template = '<li><span class="main"></span>' +
+				   '<h3 class="name"></h3>' +
+				   '<span class="start"></span><br><span class="end"></span>' +
+				   '<br><span class="location"></span></li>';
 
-        var paginationTopOptions =
+        paginationTopOptions =
         {
             name: "paginationTop",
             paginationClass: "paginationTop",
             outerWindow: 10
         };
 
-        var paginationBottomOptions =
+        paginationBottomOptions =
         {
             name: "paginationBottom",
             paginationClass: "paginationBottom",
             outerWindow: 10
         };
 
-        var options =
+        options =
         {
             valueNames: ['main', 'name', 'start', 'end', 'location', 'hidden', 'id'],
             searchClass: "search",
@@ -118,27 +154,28 @@
                 }
             }); */
         }
-        var temp = "temp";
-
 
         var searchField = eventList.helpers.getByClass(document, 'search', true);
         eventList.helpers.events.bind(searchField, 'keyup', function(e)
         {
             var target = e.target || e.srcElement; // IE have srcElement
-            eventList.search(target.value, ['hidden']);
+            var search = eventList.search(target.value, ['hidden']);
+			
+			console.log(search);
 
             for (var i = 0; i < object_name[0].length; i++)
             {
                 var item = eventList.get('id', "0")[i];
 
-                item.values({
-                        main: "",
-                        name: item.values().name,
-                        start: item.values().start,
-                        end: item.values().end,
-                        location: item.values().location,
-                        hidden: item.values().hidden,
-                        id: "0"
+                item.values(
+				{
+					main: "",
+					name: item.values().name,
+					start: item.values().start,
+					end: item.values().end,
+					location: item.values().location,
+					hidden: item.values().hidden,
+					id: "0"
                 });
             }
 
@@ -151,14 +188,15 @@
                     if (dates.indexOf(object_name[0][i].start_at) !== -1)
                     {
 
-                        item.values({
-                                main: '<h1 class="main-inside">' + object_name[0][i].start_at + '</h1>',
-                                name: item.values().name,
-                                start: item.values().start,
-                                end: item.values().end,
-                                location: item.values().location,
-                                hidden: item.values().hidden,
-                                id: "0"
+                        item.values(
+						{
+							main: '<h1 class="main-inside">' + object_name[0][i].start_at + '</h1>',
+							name: item.values().name,
+							start: item.values().start,
+							end: item.values().end,
+							location: item.values().location,
+							hidden: item.values().hidden,
+							id: "0"
                         });
                     }
                 }
