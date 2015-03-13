@@ -6,8 +6,6 @@
     {
         init_list();
     });
-	
-
 
     function init_list()
     {
@@ -22,52 +20,51 @@
             }
 
             return a1 > b1 ? 1 : -1;
-        });		
-		
-		jQuery("#linker").click(function()
-		{	
-			var doc = new jsPDF();
-			
-			doc.setFont("times");
-			doc.setFontSize(12);			
-			doc.setLineWidth(0.1);
-			var pageHeight= doc.internal.pageSize.height;
-			
-			var temp = 0;
-			var adder = 10;
-			
-			for (var i = 0; i < object_name[0].length; i++)
-			{
-				temp = temp + adder;
-				console.log(doc.internal.pageSize.height);
-				
-				if (parseInt(pageHeight, 10) <= temp)
-				{
-					doc.addPage();
-					temp = adder;
-				}
-				
-				doc.text(10, temp, i + object_name[0][i].name);
-				doc.setDrawColor(225,225,225);				
-				doc.setLineWidth(0.1);
-				doc.line(0, temp+2, 600, temp+2);	
-					
-			}
-			
-			doc.output('dataurlnewwindow');
-		});		
+        });
+
+        jQuery("#linker").click(function()
+        {
+            var doc = new jsPDF();
+
+            doc.setFont("times");
+            doc.setFontSize(12);
+            doc.setLineWidth(0.1);
+            var pageHeight= doc.internal.pageSize.height;
+
+            var temp = 0;
+            var adder = 10;
+
+            for (var i = 0; i < object_name[0].length; i++)
+            {
+                temp = temp + adder;
+                console.log(doc.internal.pageSize.height);
+
+                if (parseInt(pageHeight, 10) <= temp)
+                {
+                    doc.addPage();
+                    temp = adder;
+                }
+
+                doc.text(10, temp, i + object_name[0][i].name);
+                doc.setDrawColor(225,225,225);
+                doc.setLineWidth(0.1);
+                doc.line(0, temp+2, 600, temp+2);
+            }
+
+            doc.output('dataurlnewwindow');
+        });
 
         var eventList,
             dates = [],
-			template,
-			paginationTopOptions,
-			paginationBottomOptions,
-			options;
+            template,
+            paginationTopOptions,
+            paginationBottomOptions,
+            options;
 
         template = '<li><span class="main"></span>' +
-				   '<h3 class="name"></h3>' +
-				   '<span class="start"></span><br><span class="end"></span>' +
-				   '<br><span class="location"></span></li>';
+                   '<h3 class="name"></h3>' +
+                   '<span class="start"></span><br><span class="end"></span>' +
+                   '<br><span class="location"></span></li>';
 
         paginationTopOptions =
         {
@@ -160,22 +157,22 @@
         {
             var target = e.target || e.srcElement; // IE have srcElement
             var search = eventList.search(target.value, ['hidden']);
-			
-			console.log(search);
+
+            console.log(search);
 
             for (var i = 0; i < object_name[0].length; i++)
             {
                 var item = eventList.get('id', "0")[i];
 
                 item.values(
-				{
-					main: "",
-					name: item.values().name,
-					start: item.values().start,
-					end: item.values().end,
-					location: item.values().location,
-					hidden: item.values().hidden,
-					id: "0"
+                {
+                    main: "",
+                    name: item.values().name,
+                    start: item.values().start,
+                    end: item.values().end,
+                    location: item.values().location,
+                    hidden: item.values().hidden,
+                    id: "0"
                 });
             }
 
@@ -189,14 +186,14 @@
                     {
 
                         item.values(
-						{
-							main: '<h1 class="main-inside">' + object_name[0][i].start_at + '</h1>',
-							name: item.values().name,
-							start: item.values().start,
-							end: item.values().end,
-							location: item.values().location,
-							hidden: item.values().hidden,
-							id: "0"
+                        {
+                            main: '<h1 class="main-inside">' + object_name[0][i].start_at + '</h1>',
+                            name: item.values().name,
+                            start: item.values().start,
+                            end: item.values().end,
+                            location: item.values().location,
+                            hidden: item.values().hidden,
+                            id: "0"
                         });
                     }
                 }
