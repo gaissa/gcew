@@ -28,7 +28,7 @@
         var eventList,
             dates = [];
 
-        var template = '<li><h1 class="main"></h1>' +
+        var template = '<li><span class="main"></span>' +
                        '<h3 class="name"></h3>' +
                        '<span class="start"></span><br><span class="end"></span>' +
                        '<br><span class="location"></span></li>';
@@ -49,7 +49,7 @@
 
         var options =
         {
-            valueNames: ['main', 'name', 'start', 'end', 'location', 'hidden'],
+            valueNames: ['main', 'name', 'start', 'end', 'location', 'hidden', 'id'],
             searchClass: "search",
             item: template,
             page: 25,
@@ -61,13 +61,6 @@
         };
 
         eventList = new List('event-list', options);
-
-        var searchField = eventList.helpers.getByClass(document, 'search', true);
-        eventList.helpers.events.bind(searchField, 'keyup', function(e)
-        {
-            var target = e.target || e.srcElement; // IE have srcElement
-            eventList.search(target.value, ['hidden']);
-        });
 
         for (var i = 0; i < object_name[0].length; i++)
         {
@@ -93,19 +86,21 @@
                     start: start_date,
                     end: end_date,
                     location: location,
-                    hidden: hidden
+                    hidden: hidden,
+                    id: "0"
                 });
             }
             else
             {
                 eventList.add
                 ({
-                    main: object_name[0][i].start_at,
+                    main: '<h1 class="main-inside">' + object_name[0][i].start_at + '</h1>',
                     name: name,
                     start: start_date,
                     end: end_date,
                     location: location,
-                    hidden: hidden
+                    hidden: hidden,
+                    id: "0"
                 });
             }
 
@@ -123,6 +118,51 @@
                 }
             }); */
         }
-    }
+        var temp = "temp";
 
+
+        var searchField = eventList.helpers.getByClass(document, 'search', true);
+        eventList.helpers.events.bind(searchField, 'keyup', function(e)
+        {
+            var target = e.target || e.srcElement; // IE have srcElement
+            eventList.search(target.value, ['hidden']);
+
+            for (var i = 0; i < object_name[0].length; i++)
+            {
+                var item = eventList.get('id', "0")[i];
+
+                item.values({
+                        main: "",
+                        name: item.values().name,
+                        start: item.values().start,
+                        end: item.values().end,
+                        location: item.values().location,
+                        hidden: item.values().hidden,
+                        id: "0"
+                });
+            }
+
+            if(target.value === "")
+            {
+                for (var i = 0; i < object_name[0].length; i++)
+                {
+                    var item = eventList.get('id', "0")[i];
+
+                    if (dates.indexOf(object_name[0][i].start_at) !== -1)
+                    {
+
+                        item.values({
+                                main: '<h1 class="main-inside">' + object_name[0][i].start_at + '</h1>',
+                                name: item.values().name,
+                                start: item.values().start,
+                                end: item.values().end,
+                                location: item.values().location,
+                                hidden: item.values().hidden,
+                                id: "0"
+                        });
+                    }
+                }
+            }
+        });
+    }
 })();
