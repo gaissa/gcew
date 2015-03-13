@@ -138,7 +138,7 @@ class GCEventWorkerClientCore
     function add_custom_cron_schedule($schedules)
     {
         $schedules['gcew_get_events_schedule'] = array(
-            'interval' => 10,
+            'interval' => 1,
             'display'  => __('Custom Interval'),
         );
 
@@ -361,10 +361,6 @@ class GCEventWorkerClientCore
         else if (has_shortcode($post->post_content, 'events_02'))
         {
             $page = 'front';
-
-            wp_enqueue_script('search-form',
-                              plugin_dir_url( __FILE__ ) . 'js/views/search_01.js',
-                              array('jquery'));
 
             wp_enqueue_style('front-style', plugins_url('css/front-style.css', __FILE__));
 

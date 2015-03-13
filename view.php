@@ -59,13 +59,8 @@ class GCEventWorkerView
      *
      */
     function show_search_form()
-    {
-        $searchform = '<form id="live-search" action="" class="styled" method="post">
-                       <fieldset>
-                       <input type="text" placeholder="Etsi Tapahtumia" class="text-input" id="filter" value="" />
-                       <span id="filter-count"></span>
-                       </fieldset>
-                       </form>';
+    {					   
+		$searchform = '<input class="search" placeholder="Etsi Tapahtumia"/>';
 
         return $searchform;
     }
@@ -100,10 +95,16 @@ class GCEventWorkerView
     function show_event_list_02($atts)
     {
         $loader = ' <div id="event-list">
-
-                    <ul class="pagination"></ul>
-                     <h4 id="event_search_results">HAKUTULOKSET:</h4>
+                    <ul class="paginationTop"></ul>
+					
+                    <h4 id="event_search_results">HAKUTULOKSET:</h4>
                     <ul class="list"></ul>
+					
+					<br>
+					
+					<ul class="paginationBottom"></ul>
+					
+					
                     </div>';
 
         return $loader;

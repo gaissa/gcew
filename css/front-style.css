@@ -1,10 +1,20 @@
-.pagination li
+.paginationTop li,
+.paginationBottom li
 {
     display:inline-block !important;
-    margin-right: -32px !important;
+    margin-left: 1.2%; 	
     padding: 0 12px 0 12px !important;
     background-color: #eee !important;
     box-shadow: inset 0 1px 0 #fff !important;
+}
+
+.paginationTop .active
+{
+    display:inline-block !important;
+    margin-left: 1.2%; 	
+    padding: 0 12px 0 12px !important;
+    background-color: #fff !important;
+	border: 1px solid #aaa;
 }
 
 #event_search_results
