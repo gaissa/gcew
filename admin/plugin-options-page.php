@@ -94,10 +94,6 @@ class GCEventWorkerPluginOptions
                            array($this, 'create_input_future_events'),
                            'gcew-settings-sections',
                            'gcew-settings-section-first');
-
-        register_setting('settings-group',
-                         'gcew_api_key',
-                         array($this, 'plugin_api_endpoint_settings_validate'));
     }
 
     /**
@@ -137,15 +133,13 @@ class GCEventWorkerPluginOptions
         ?>
 
         <p>
-            <input id="add-id" style="width:50%" type="text" name="gcew_api_key[calendar-id]" value="" />
+            <input placeholder="Add new Google Calendar ID" id="add-id" style="width:50%" type="text" name="gcew_api_key[calendar-id]" value="" />
             <a href=javascript:void(0); id="add">ADD</a>
         </p>
 
         <div id="calendar-id-list">
             <ul class="list"></ul>
         </div>
-
-        <!-- <a href='#' id="saveAll">SAVE</a> -->
 
         <script type="text/javascript">
 
@@ -159,7 +153,7 @@ class GCEventWorkerPluginOptions
                 item: '<li><text contenteditable="plaintext-only" class="name"></text><text class="city"></text></li>',
             };
 
-            loadToDo();
+            loadCalendarList();
 
             jQuery("#submit").click(function(e)
             {
@@ -174,6 +168,7 @@ class GCEventWorkerPluginOptions
                 for (var j = 0; j < cusid_ele.length; j++)
                 {
                     var item = cusid_ele[j];
+                    checkPageExist(item.innerText, false);
                     info[j] = item.innerText;
                 }
 
@@ -185,11 +180,14 @@ class GCEventWorkerPluginOptions
                    //console.log(data);
                 }).done(function()
                 {
-                    alertify.success("You have saved your list.");
+                    if (idCheck === true)
+                    {
+                        alertify.success("You have saved your list.");
+                    }
                 });
             });
 
-            function loadToDo()
+            function loadCalendarList()
             {
                 var values = [];
 
@@ -229,22 +227,26 @@ class GCEventWorkerPluginOptions
 
                         if (idCheck == true)
                         {
-                            calendarIDList.add({   id: jQuery("#add-id").val(),
-                                             name: jQuery("#add-id").val(),
-                                             city: '<a href=javascript:void(0); id="' +
-                                                   jQuery("#add-id").val() +
-                                                   '" class="removeID">REMOVE</a>' });
+                            calendarIDList.add(
+                            {
+                                id: jQuery("#add-id").val(),
+                                name: jQuery("#add-id").val(),
+                                city: '<a href=javascript:void(0); id="' +
+                                      jQuery("#add-id").val() +
+                                      '" class="removeID">REMOVE</a>'
+                            });
                         }
                     });
                 });
+            }
 
-                function checkPageExist(id, bool)
+            function checkPageExist(id, bool)
                 {
                     jQuery.ajax(
                     {
                         url: "https://www.googleapis.com/calendar/v3/calendars/" +
                              id +
-                             "/events?singleEvents=false&key=" +
+                             "/events?maxResults=1&singleEvents=false&key=" +
                              jQuery("#api-key").val(),
                         async: bool,
                         statusCode:
@@ -267,7 +269,6 @@ class GCEventWorkerPluginOptions
                         }
                     });
                 }
-            }
         });
 
         </script>
@@ -289,25 +290,6 @@ class GCEventWorkerPluginOptions
                id="future-events"
                value='1' <?php checked( $options['future-events'], 1); ?> />
         <?php
-    }
-
-    /**
-     * Validate the input.
-     *
-     * @param  array $arr_input the input.
-     *
-     * @return array
-     *
-     */
-    function plugin_api_endpoint_settings_validate($arr_input)
-    {
-        //$options = get_option('gcew_api_key');
-        //$options['api-key'] = $arr_input['api-key'];
-        //$options['calendar-id'] = sanitize_text_field($arr_input['calendar-id']);
-
-        //$options['future-events'] = $arr_input['future-events'];
-
-        //return $options;
     }
 
 } //end class
