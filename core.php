@@ -107,7 +107,7 @@ class GCEventWorkerClientCore
     function __construct()
     {
         require_once('admin/plugin-options-page.php');
-        $this->loc_array = get_option('gcew_events_list');
+
         $options = get_option('gcew_api_key');
 
         $this->api_key = $options['api-key'];
@@ -157,6 +157,7 @@ class GCEventWorkerClientCore
         wp_clear_scheduled_hook('gcew_get_events_schedule_hook');
         delete_option('gcew_events_list');
         delete_option('gcew_event_categories');
+        delete_option('gcew_api_key');
         // ADD MORE!!!!
     }
 
@@ -219,12 +220,15 @@ class GCEventWorkerClientCore
 
         if ($this->future_events === 1)
         {
-            $timeMin = '&timeMin=' . gmdate('Y-m-d\TH:i:s\Z', time()-(43200));
+            $timeMin = '&timeMin=' . gmdate('Y-m-d\TH:i:s\Z', time()-(86400)); // -1 day
         }
         else
         {
             $timeMin = '';
         }
+
+		$temp = gmdate('Y-m-d\TH:i:s\Z', time()+(7776000)); // +90 days
+		$timeMax = '&timeMax=' . $temp;
 
         $calendars = $this->id;
 
@@ -234,7 +238,7 @@ class GCEventWorkerClientCore
         {
             $temporary = wp_remote_get('https://www.googleapis.com/calendar/v3/calendars/' .
                                        $calendars[$i] . '/events?singleEvents=true&maxResults=2500&orderBy=startTime' .
-                                       $timeMin .'&key=' . $key,
+                                       $timeMin . $timeMax . '&key=' . $key,
                                        array('timeout' => 10000,
                                              'compress' => true,
                                              'stream' => false));
@@ -384,6 +388,7 @@ class GCEventWorkerClientCore
 
         add_action('wp_head', array($this, 'init_head'));
 
+        $this->loc_array = get_option('gcew_events_list');
         new GCEventWorkerView($this->loc_array, $this->id);
     }
 
