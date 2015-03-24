@@ -18,6 +18,11 @@ Shortcodes
     Add to any page or post.
 <br>
 <br>
-2. ```[search]```
+2. ```[calendar height<int>]```
+<br>
+    Add to any page or post.
+<br>
+<br>
+3. ```[search]```
 <br>
     Add anywhere (text widget, page, post and such).
