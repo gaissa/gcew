@@ -15,14 +15,14 @@ Shortcodes
 <br>
 1. ```[events_list]```
 <br>
-    Add to any page or post.
+    Add the Event List to any page or post.
 <br>
 <br>
 2. ```[calendar height="<int>"]```
 <br>
-    Add to any page or post.
+    Add a simple embedded Google Calendar to any page or post.
 <br>
 <br>
 3. ```[search]```
 <br>
-    Add anywhere (text widget, page, post and such).
+    Add live search form anywhere (text widget, page, post and such).
