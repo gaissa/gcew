@@ -18,7 +18,7 @@ Shortcodes
     Add to any page or post.
 <br>
 <br>
-2. ```[calendar height<int>]```
+2. ```[calendar height="<int>"]```
 <br>
     Add to any page or post.
 <br>
