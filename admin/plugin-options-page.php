@@ -33,7 +33,7 @@ class GCEventWorkerPluginOptions
     function plugin_setup_menu()
     {
         add_menu_page('gcew Options Page',
-                      'gcew Events Options',
+                      'gcew Options',
                       'manage_options',
                       'gcew-options',
                       array($this, 'init_settings_page' ));
@@ -73,7 +73,7 @@ class GCEventWorkerPluginOptions
     function register_settings()
     {
         add_settings_section('gcew-settings-section-first',
-                             __('gcew Events Options', 'event-worker-translations'),
+                             __('gcew Options', 'event-worker-translations'),
                              array($this, 'print_api_key_settings_section_info'),
                              'gcew-settings-sections');
 
