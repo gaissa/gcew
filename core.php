@@ -342,11 +342,6 @@ class GCEventWorkerClientCore
         {
             $page = 'front';
 
-
-            wp_enqueue_script('jspdf',
-                              plugin_dir_url( __FILE__ ) . 'js/jspdf.min.js',
-                              array('jquery'));
-
             wp_enqueue_style('front-style', plugins_url('css/front-style.css', __FILE__));
 
             wp_enqueue_script('listjs',

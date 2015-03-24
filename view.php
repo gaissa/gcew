@@ -90,9 +90,13 @@ class GCEventWorkerView
      */
     function show_print_form($atts)
     {
-       $printform = "";
+        wp_enqueue_script('jspdf',
+                  plugin_dir_url( __FILE__ ) . 'js/lib/jspdf/jspdf.min.js',
+                  array('jquery'));
 
-       $atts = shortcode_atts(
+        $printform = "";
+
+        $atts = shortcode_atts(
         array(
             'pdf' => 'true',
             'text' => 'true',
