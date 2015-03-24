@@ -16,19 +16,24 @@ class GCEventWorkerView
      * The constructor.
      *
      */
-    function __construct()
+    function __construct($output, $id_list)
     {
+        var_dump($id_list);
+
+        $this->id_list = $id_list;
         add_shortcode('search', array(&$this, 'show_search_form'));
         add_shortcode('print', array(&$this, 'show_print_form'));
 
         add_shortcode('recent', array(&$this, 'show_recent_form'));
+
+        add_shortcode('calendar', array(&$this, 'show_calendar'));
 
         add_shortcode('events_map', array(&$this, 'show_events_map'));
         add_shortcode('events_list', array(&$this, 'show_events_list'));
 
         add_filter('widget_text', 'do_shortcode');
 
-        $output = get_option('gcew_events_list');
+        //$output = $args;
 
         for ($i = 0; $i < count($output); $i++)
         {
@@ -93,7 +98,7 @@ class GCEventWorkerView
         return $printform;
     }
 
-       /**
+    /**
      * TODO
      *
      * @return string
@@ -106,7 +111,38 @@ class GCEventWorkerView
             'height' => 200,
         ), $atts));
 
-        return '<img src="http://lorempixel.com/'. $width . '/'. $height . '" />';;
+        return '<img src="http://lorempixel.com/'. $width . '/'. $height . '" />';
+    }
+
+    /**
+     * TODO
+     *
+     * @return string
+     *
+     */
+    function show_calendar($atts)
+    {
+        extract(shortcode_atts(array(
+            'height' => '800px'
+        ), $atts));
+
+        $calendars = "";
+
+        for ($i = 0; $i < count($this->id_list); $i++)
+        {
+            $calendars .= '&amp;src=' . $this->id_list[$i] . '&amp;color=%2328754E';
+        }
+
+        $temp = '<iframe src="https://www.google.com/calendar/embed' .
+                '?showTitle=0' .
+                '&amp;wkst=1' .
+                '&amp;bgcolor=%23FFFFFF' .
+                $calendars .
+                '&amp;ctz=Europe%2FHelsinki"' .
+                'style=border-width:0 width="100%" height="' . $height . 'px" frameborder="0" scrolling="no">' .
+                '</iframe>';
+
+        return $temp;
     }
 
     /**
@@ -151,6 +187,5 @@ class GCEventWorkerView
 
 } //end class
 
-new GCEventWorkerView();
 
 /* End of File */

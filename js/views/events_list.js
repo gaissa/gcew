@@ -85,7 +85,7 @@
             valueNames: ['main', 'name', 'start', 'end', 'location', 'hidden', 'id'],
             searchClass: "search",
             item: template,
-            page: 25,
+            page: 75,
             plugins:
             [
                 ListPagination(paginationTopOptions),

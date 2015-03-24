@@ -89,6 +89,16 @@ class GCEventWorkerClientCore
     private $future_events;
 
     /**
+     * STODO.
+     *
+     * TODO
+     *
+     * @var string
+     *
+     */
+    private $loc_array;
+
+    /**
      * The constructor.
      *
      * TODO
@@ -97,15 +107,12 @@ class GCEventWorkerClientCore
     function __construct()
     {
         require_once('admin/plugin-options-page.php');
+ $this->loc_array = get_option('gcew_events_list');
+        $options = get_option('gcew_api_key');
 
-        $this->api_key = get_option('gcew_api_key');
-        $this->api_key = $this->api_key['api-key'];
-
-        $this->future_events = get_option('gcew_api_key');
-        $this->future_events = $this->future_events['future-events'];
-
-        $this->id = get_option('gcew_api_key');
-        $this->id = $this->id['calendar-id'][0];
+        $this->api_key = $options['api-key'];
+        $this->id = $options['calendar-id'][0];
+        $this->future_events = $options['future-events'];
 
         // Register CRON stuff
         add_filter('cron_schedules', array(&$this, 'add_custom_cron_schedule')) ;
@@ -117,10 +124,6 @@ class GCEventWorkerClientCore
 
         if (isset($this->api_key) && isset($this->id))
         {
-            // Register AJAX stuff
-            add_action('wp_ajax_nopriv_ajax-example', array(&$this, 'ajax_call'));
-            add_action('wp_ajax_ajax-example', array(&$this, 'ajax_call'));
-
             // INIT stuff
             add_action('init', array(&$this, 'main_init'));
         }
@@ -200,29 +203,6 @@ class GCEventWorkerClientCore
     }
 
     /**
-     * TODO
-     *
-     * @param  TODO $needle
-     * @param  array   $haystack
-     * @param  boolean $strict
-     *
-     * @return boolean
-     *
-     */
-    public function in_array_r($needle, $haystack, $strict = false)
-    {
-        foreach ($haystack as $item)
-        {
-            if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && $this->in_array_r($needle, $item, $strict)))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Get the data and parse it.
      *
      * @return array $parsed_data
@@ -253,7 +233,7 @@ class GCEventWorkerClientCore
         for ($i = 0; $i < count($calendars); $i++)
         {
             $temporary = wp_remote_get('https://www.googleapis.com/calendar/v3/calendars/' .
-                                       $calendars[$i] . '/events?singleEvents=true' .
+                                       $calendars[$i] . '/events?singleEvents=true&maxResults=2500&orderBy=startTime' .
                                        $timeMin .'&key=' . $key,
                                        array('timeout' => 10000,
                                              'compress' => true,
@@ -343,11 +323,11 @@ class GCEventWorkerClientCore
         else if (has_shortcode($post->post_content, 'events_list'))
         {
             $page = 'front';
-			
-			
-			wp_enqueue_script('jspdf',
+
+
+            wp_enqueue_script('jspdf',
                               plugin_dir_url( __FILE__ ) . 'js/jspdf.min.js',
-                              array('jquery'));			
+                              array('jquery'));
 
             wp_enqueue_style('front-style', plugins_url('css/front-style.css', __FILE__));
 
@@ -359,7 +339,7 @@ class GCEventWorkerClientCore
                               plugin_dir_url( __FILE__ ) . 'js/lib/listjs/list.pagination.js',
                               array('jquery'));
 
-            $loc_array = get_option('gcew_events_list');
+            //$this->loc_array = get_option('gcew_events_list');
 
             wp_enqueue_script('front_view',
                               plugin_dir_url( __FILE__ ) . 'js/views/events_list.js',
@@ -367,7 +347,7 @@ class GCEventWorkerClientCore
 
             wp_localize_script('front_view',
                                'object_name',
-                               array($loc_array,
+                               array($this->loc_array,
                                array('start_text' => "Alkaa",
                                      'end_text' => "Loppuu",
                                      'location_text' => "Sijainti",
@@ -389,6 +369,8 @@ class GCEventWorkerClientCore
         require_once('view.php');
 
         add_action('wp_head', array($this, 'init_head'));
+
+        new GCEventWorkerView($this->loc_array, $this->id);
     }
 
     /**
@@ -398,28 +380,6 @@ class GCEventWorkerClientCore
     function init_head()
     {
         $this->init_ajax();
-    }
-
-    /**
-     * TODO
-     *
-     */
-    function ajax_call()
-    {
-        if (!isset($_REQUEST['nonce']) ||
-            !wp_verify_nonce($_REQUEST['nonce'], 'ajax-example-nonce' ))
-        {
-            die('Invalid Nonce');
-        }
-
-        $output = get_option('gcew_events_list');
-
-        //header( "Content-Type: application/json" );
-
-        wp_send_json(array('success' => true,
-                           'data' => $output));
-
-        wp_die();
     }
 
 } //end class
