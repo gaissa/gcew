@@ -177,10 +177,6 @@
             var target = e.target || e.srcElement; // IE have srcElement
             var search = eventList.search(target.value, ['hidden']);
 
-            //console.log(search);
-
-
-
             for (var i = 0; i < object_name[0].length; i++)
             {
                 var item = eventList.get('id', "0")[i];
