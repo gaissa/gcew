@@ -18,8 +18,6 @@ class GCEventWorkerView
      */
     function __construct($output, $id_list)
     {
-        var_dump($id_list);
-
         $this->id_list = $id_list;
         add_shortcode('search', array(&$this, 'show_search_form'));
         add_shortcode('print', array(&$this, 'show_print_form'));
