@@ -62,7 +62,7 @@
             options;
 
         template = '<li><span class="main"></span>' +
-                   '<h3 class="name"></h3>' +
+                   '<h4 class="name"></h4>' +
                    '<span class="start"></span><br><span class="end"></span>' +
                    '<br><span class="location"></span></li>';
 
@@ -85,7 +85,7 @@
             valueNames: ['main', 'name', 'start', 'end', 'location', 'hidden', 'id'],
             searchClass: "search",
             item: template,
-            page: 75,
+            page: 20,
             plugins:
             [
                 ListPagination(paginationTopOptions),
@@ -146,7 +146,7 @@
             {
                 eventList.add
                 ({
-                    main: '<h1 class="main-inside">' + object_name[0][i].start_at + '</h1>',
+                    main: '<h3 class="main-inside">' + object_name[0][i].start_at + '</h3>',
                     name: name,
                     start: start_date,
                     end: end_date,
@@ -206,7 +206,7 @@
                     {
                         item.values(
                         {
-                            main: '<h1 class="main-inside">' + object_name[0][i].start_at + '</h1>'
+                            main: '<h3 class="main-inside">' + object_name[0][i].start_at + '</h3>'
                         });
                     }
 

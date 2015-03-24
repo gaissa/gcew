@@ -19,6 +19,7 @@ class GCEventWorkerView
     function __construct($output, $id_list)
     {
         $this->id_list = $id_list;
+
         add_shortcode('search', array(&$this, 'show_search_form'));
         add_shortcode('print', array(&$this, 'show_print_form'));
 
@@ -50,7 +51,7 @@ class GCEventWorkerView
                 $end = '';
             }
 
-            $temp = '<a href="' . $output[$i]['link'] . '">Jatka kalenteriin &rarr;</a>';
+            $temp = '<br><a href="' . $output[$i]['link'] . '" target="_blank">Jatka kalenteriin &rarr;</a>';
 
             $args = array('slug' => $output[$i]['id'],
                           'post_title' => $output[$i]['name'],
@@ -141,12 +142,12 @@ class GCEventWorkerView
 
         for ($i = 0; $i < count($this->id_list); $i++)
         {
-            $calendars .= '&amp;src=' . $this->id_list[$i] . '&amp;color=%2328754E';
+            $calendars .= '&amp;src=' . $this->id_list[$i] . '&amp;color=%23000000';
         }
 
         $temp = '<iframe src="https://www.google.com/calendar/embed' .
                 '?showTitle=0' .
-                '&amp;wkst=1' .
+                '&amp;wkst=2' .
                 '&amp;bgcolor=%23FFFFFF' .
                 $calendars .
                 '&amp;ctz=Europe%2FHelsinki"' .
@@ -183,8 +184,6 @@ class GCEventWorkerView
     {
         $loader = '<div id="event-list">
                    <ul class="paginationTop"></ul>
-
-                   <h4 id="event_search_results">HAKUTULOKSET:</h4>
                    <ul class="list"></ul>
 
                    <br>
