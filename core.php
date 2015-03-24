@@ -107,7 +107,7 @@ class GCEventWorkerClientCore
     function __construct()
     {
         require_once('admin/plugin-options-page.php');
- $this->loc_array = get_option('gcew_events_list');
+        $this->loc_array = get_option('gcew_events_list');
         $options = get_option('gcew_api_key');
 
         $this->api_key = $options['api-key'];
