@@ -100,14 +100,33 @@
             var name = '<a href="' + object_name[1].root + '/' + object_name[0][i].id + '/">' +
                        object_name[0][i].name + '</a>';
 
-            var start_date = '<strong>' + object_name[1].start_text + ':</strong> ' +
-                             object_name[0][i].start_at + ' @ ' + object_name[0][i].start_time;
+            if (object_name[0][i].start_time.length != 0)
+            {
 
-            var end_date = '<strong>' + object_name[1].end_text + ':</strong> ' +
-                           object_name[0][i].end_time;
+                var start_date = '<strong>' + object_name[1].start_text + ':</strong> ' +
+                                 object_name[0][i].start_at + ' @ ' + object_name[0][i].start_time;
 
-            var location = '<strong>' + object_name[1].location_text + ':</strong> ' +
-                           object_name[0][i].location;
+                var end_date = '<strong>' + object_name[1].end_text + ':</strong> ' +
+                               object_name[0][i].end_time;
+            }
+            else
+            {
+                var start_date = '<strong>' + object_name[1].start_text + ':</strong> ' +
+                                 object_name[0][i].start_at;
+
+                var end_date = '';
+            }
+
+
+            if (object_name[0][i].location.length != 0)
+            {
+                var location = '<strong>' + object_name[1].location_text + ':</strong> ' +
+                               object_name[0][i].location;
+            }
+            else
+            {
+                var location = '';
+            }
 
             var hidden = object_name[0][i].name;
 
@@ -158,7 +177,9 @@
             var target = e.target || e.srcElement; // IE have srcElement
             var search = eventList.search(target.value, ['hidden']);
 
-            console.log(search);
+            //console.log(search);
+
+
 
             for (var i = 0; i < object_name[0].length; i++)
             {
@@ -166,36 +187,34 @@
 
                 item.values(
                 {
-                    main: "",
-                    name: item.values().name,
-                    start: item.values().start,
-                    end: item.values().end,
-                    location: item.values().location,
-                    hidden: item.values().hidden,
-                    id: "0"
+                    main: ""
                 });
             }
 
             if(target.value === "")
             {
+                dates = [];
+
                 for (var i = 0; i < object_name[0].length; i++)
                 {
                     var item = eventList.get('id', "0")[i];
 
                     if (dates.indexOf(object_name[0][i].start_at) !== -1)
                     {
-
                         item.values(
                         {
-                            main: '<h1 class="main-inside">' + object_name[0][i].start_at + '</h1>',
-                            name: item.values().name,
-                            start: item.values().start,
-                            end: item.values().end,
-                            location: item.values().location,
-                            hidden: item.values().hidden,
-                            id: "0"
+                            main: ''
                         });
                     }
+                    else
+                    {
+                        item.values(
+                        {
+                            main: '<h1 class="main-inside">' + object_name[0][i].start_at + '</h1>'
+                        });
+                    }
+
+                    dates.push(object_name[0][i].start_at)
                 }
             }
         });

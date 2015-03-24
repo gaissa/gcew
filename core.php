@@ -255,13 +255,27 @@ class GCEventWorkerClientCore
 
         for ($i = 0; $i < count($result); $i++)
         {
-            $start_order = date('yyyymmdd', strtotime($result[$i]['start']['dateTime']));
 
-            $start_date = date('d.m.Y', strtotime($result[$i]['start']['dateTime']));
-            $start_time = date('H:i', strtotime($result[$i]['start']['dateTime']));
+            //if DATE!!!
+            if (isset($result[$i]['start']['dateTime']))
+            {
+                $start_order = date('yyyymmdd', strtotime($result[$i]['start']['dateTime']));
+                $start_date = date('d.m.Y', strtotime($result[$i]['start']['dateTime']));
+                $start_time = date('H:i', strtotime($result[$i]['start']['dateTime']));
+                $end_date = date('d.m.Y', strtotime($result[$i]['end']['dateTime']));
+                $end_time = date('H:i', strtotime($result[$i]['end']['dateTime']));
+            }
+            else
+            {
+                $start_order = date('yyyymmdd', strtotime($result[$i]['start']['date']));
 
-            $end_date = date('d.m.Y', strtotime($result[$i]['end']['dateTime']));
-            $end_time = date('H:i', strtotime($result[$i]['end']['dateTime']));
+                $start_date = date('d.m.Y', strtotime($result[$i]['start']['date']));
+                $start_time =  "";
+
+                $end_date = date('d.m.Y', strtotime($result[$i]['end']['date']));
+                $end_time = "";
+            }
+
 
             if (isset($result[$i]['description']))
             {

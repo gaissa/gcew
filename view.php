@@ -31,19 +31,32 @@ class GCEventWorkerView
 
         add_filter('widget_text', 'do_shortcode');
 
-        //$output = $args;
-
         for ($i = 0; $i < count($output); $i++)
         {
-            $temp = '<a href="' . $output[$i]['link'] . '">Linkki kalenteriin &rarr;</a>';
+
+            if ($output[$i]['start_time'] != "")
+            {
+                $start = '<strong>ALKAA:</strong> ' .
+                $output[$i]['start_at'] .
+                ' @ ' .
+                $output[$i]['start_time'];
+
+                $end = '<strong>LOPPUU:</strong> ' . $output[$i]['end_time'];
+            }
+            else
+            {
+                $start = '<strong>ALKAA:</strong> ' . $output[$i]['start_at'];
+
+                $end = '';
+            }
+
+            $temp = '<a href="' . $output[$i]['link'] . '">Jatka kalenteriin &rarr;</a>';
 
             $args = array('slug' => $output[$i]['id'],
                           'post_title' => $output[$i]['name'],
-                          'post_content' => '<strong>ALKAA:</strong> ' . $output[$i]['start_at'] .
-                                            ' @ ' .
-                                            $output[$i]['start_time'] .
+                          'post_content' => $start .
                                             '<br>' .
-                                            '<strong>LOPPUU:</strong> ' . $output[$i]['end_time']  .
+                                            $end .
                                             '<br>' .
                                             $output[$i]['location'] . '<br><br>' .
                                             $output[$i]['description'] . '<br>' .
