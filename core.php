@@ -220,15 +220,15 @@ class GCEventWorkerClientCore
 
         if ($this->future_events === 1)
         {
-            $timeMin = '&timeMin=' . gmdate('Y-m-d\TH:i:s\Z', time()-(86400)); // -1 day
+            $timeMin = '&timeMin=' . gmdate('Y-m-d\TH:i:s\Z', time()-(43200)); // -12 hours
         }
         else
         {
             $timeMin = '';
         }
 
-		$temp = gmdate('Y-m-d\TH:i:s\Z', time()+(7776000)); // +90 days
-		$timeMax = '&timeMax=' . $temp;
+        $temp = gmdate('Y-m-d\TH:i:s\Z', time()+(7776000)); // +90 days
+        $timeMax = '&timeMax=' . $temp;
 
         $calendars = $this->id;
 
